@@ -1,0 +1,95 @@
+# Pliki binarne i obiekty
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+*.app
+
+# Katalogi Build
+build/
+bin/
+obj/
+
+# Pliki tymczasowe
+*.swp
+*~
+.*.swp
+.*.swo
+.DS_Store
+
+# Pliki specyficzne dla środowiska IDE
+# Eclipse
+.project
+.cproject
+.settings/
+
+# Visual Studio Code
+.vscode/
+
+# Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sdf
+*.suo
+*.opensdf
+*.user
+*.userosscache
+*.aps 
+*.pch
+*.vspscc 
+*_i.c
+*_p.c
+*.ncb 
+*.sln
+*.vbw 
+*.dsw 
+
+# CLion
+.idea/
+
+# Makefiles generowane automatycznie
+Makefile.in
+Makefile
+
+# Inne pliki konfiguracyjne
+*.config
+*.xml
+
+# Katalogi CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.cmake
+!CMakeLists.txt
+!*.cmake.in
+
+# Pliki logów i danych
+*.log
+*.dat
+*.opendb
+*.pgd
+
+# Archiwa (w razie, gdyby były w katalogu projektu)
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Pliki bibliotek
+*.lib
+*.a
+*.pdb
+
+# Benchmarki i testy
+benchmarks/
+tests/*.o
+tests/*.exe
+
+# Dokumentacja wygenerowana przez Doxygen
+html/
+latex
