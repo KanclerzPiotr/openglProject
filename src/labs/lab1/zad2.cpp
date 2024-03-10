@@ -43,7 +43,6 @@ std::vector<int> generateIndices(int N)
 int main(void)
 {
     constexpr int N = 100;
-
     Window window(800, 600, "OpenGL");
 
     Mesh mesh = {
@@ -55,7 +54,7 @@ int main(void)
     GLSLProgram program{"vertex_zad2.glsl", "fragment_zad2.glsl"};
     program.use();
     program.setUniform("resolution", glm::vec2(800, 600));
-    program.setUniform("N", N);
+    program.setUniform("N", (float)N);
     while(!window.shouldClose())
     {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
