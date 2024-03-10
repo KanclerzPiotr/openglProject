@@ -26,8 +26,7 @@ obj/
 .cproject
 .settings/
 
-# Visual Studio Code
-.vscode/
+
 
 # Visual Studio
 .vs/
