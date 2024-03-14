@@ -86,6 +86,28 @@ void draw()
     glDrawElements(primitiveType, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
+
+void drawArrays()
+{
+    glBindVertexArray(VAO);
+    glDrawArrays(primitiveType, 0, vertices.size());
+    glBindVertexArray(0);
+};
+
+void drawArrays(int first, int count)
+{
+    glBindVertexArray(VAO);
+    glDrawArrays(primitiveType, first, count);
+    glBindVertexArray(0);
+};
+
+void drawArrays(int first, int count, PrimitiveType primitive)
+{
+    glBindVertexArray(VAO);
+    glDrawArrays(primitive, first, count);
+    glBindVertexArray(0);
+};
+
 };
 
 #endif // COMMON_MESH_HPP

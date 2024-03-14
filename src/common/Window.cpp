@@ -1,10 +1,6 @@
 #include <common/Window.hpp>
 #include <fmt/core.h>
 
-void DEFAULT_FRAME_BUFFER_CALLBACK(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
-};
-
 Window::Window(int width, int height, std::string_view title) {
     // Initialize GLFW
     if (!glfwInit()) {
@@ -25,8 +21,12 @@ Window::Window(int width, int height, std::string_view title) {
     }
 
     glfwMakeContextCurrent(window);
-    setFramebufferSizeCallback(DEFAULT_FRAME_BUFFER_CALLBACK);
+    
+    glfwSetWindowUserPointer(window, this);
 
+    setFramebufferSizeCallback([](GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+    });
     loadGLAD();
 }
 
@@ -54,28 +54,52 @@ void Window::pollEvents() {
     glfwPollEvents();
 }
 
-void Window::setKeyCallback(GLFWkeyfun callback) {
-    glfwSetKeyCallback(window, callback);
+void Window::setFramebufferSizeCallback(std::function<void(GLFWwindow*, int, int)>&& callback){
+    framebufferSizeCallback = std::move(callback);
+    glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        w->framebufferSizeCallback(window, width, height);
+    });
 }
 
-void Window::setMouseButtonCallback(GLFWmousebuttonfun callback) {
-    glfwSetMouseButtonCallback(window, callback);
+void Window::setWindowSizeCallback(std::function<void(GLFWwindow*, int, int)>&& callback) {
+    windowSizeCallback = std::move(callback);
+    glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        w->windowSizeCallback(window, width, height);
+    });
 }
 
-void Window::setCursorPosCallback(GLFWcursorposfun callback) {
-    glfwSetCursorPosCallback(window, callback);
+void Window::setKeyCallback(std::function<void(GLFWwindow*, int, int, int, int)>&& callback) {
+    keyCallback = std::move(callback);
+    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        w->keyCallback(window, key, scancode, action, mods);
+    });
 }
 
-void Window::setScrollCallback(GLFWscrollfun callback) {
-    glfwSetScrollCallback(window, callback);
+void Window::setMouseButtonCallback(std::function<void(GLFWwindow*, int, int, int)>&& callback) {
+    mouseButtonCallback = std::move(callback);
+    glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        w->mouseButtonCallback(window, button, action, mods);
+    });
 }
 
-void Window::setFramebufferSizeCallback(GLFWframebuffersizefun callback) {
-    glfwSetFramebufferSizeCallback(window, callback);
+void Window::setCursorPosCallback(std::function<void(GLFWwindow*, double, double)>&& callback) {
+    cursorPosCallback = std::move(callback);
+    glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos) {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        w->cursorPosCallback(window, xpos, ypos);
+    });
 }
 
-void Window::setWindowSizeCallback(GLFWwindowsizefun callback) {
-    glfwSetWindowSizeCallback(window, callback);
+void Window::setScrollCallback(std::function<void(GLFWwindow*, double, double)>&& callback) {
+    scrollCallback = std::move(callback);
+    glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
+        Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        w->scrollCallback(window, xoffset, yoffset);
+    });
 }
 
 void Window::enable(GLenum cap) {
