@@ -2,7 +2,7 @@
 #define COMMON_WINDOW_HPP
 
 #include <glad/glad.h>
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 #include <fmt/core.h>
 #include <string_view>
 #include <functional>

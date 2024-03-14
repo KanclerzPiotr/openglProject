@@ -16,4 +16,10 @@ add_library(common ${SRC} ${HEADERS})
 
 
 target_include_directories(common PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(common glfw opengl32 glad glm fmt::fmt)
+target_link_libraries(common glfw glad glm fmt::fmt)
+
+if(WIN32)
+    target_link_libraries(common opengl32)
+elseif(UNIX)
+    target_link_libraries(common GL)
+endif()
