@@ -8,14 +8,14 @@
 #include <cmath>
 
 
-std::vector<ColorVertex> generateVertices(int edges) {
+std::vector<ColorVertex> generateVertices(int edges, glm::vec3 color) {
     std::vector<ColorVertex> vertices{};
     vertices.push_back({{0, 0, 0}, {1, 0, 0}});
 
     float angleIncrement = 2 * M_PI / edges;
     for(int i = 0; i < edges; i++) {
         float angle = i * angleIncrement;
-        vertices.push_back({{0.5*cos(angle), 0.5*sin(angle), 0}, {0, 0, 0}});
+        vertices.push_back({{0.5*cos(angle), 0.5*sin(angle), 0}, color});
     }
 
     return vertices;
@@ -43,19 +43,14 @@ int main(void)
     Window window(800, 600, "OpenGL");
 
     int n_edges = 8;
-    auto verticies = generateVertices(n_edges);
     Mesh center = {
-        verticies,
+        generateVertices(n_edges, {0, 0, 0}),
         generateIndicesCenter(n_edges),
         TRIANGLE_FAN
     };
 
-    for(auto& vertex : verticies) {
-        vertex.color = {1, 0, 0};
-    }
-
     Mesh edges = {
-        verticies,
+        generateVertices(n_edges, {1, 0, 0}),   
         generateIndicesEdges(n_edges),
         LINE_STRIP
     };

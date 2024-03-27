@@ -87,7 +87,7 @@ int main(void)
 
 
     Mesh mesh = {
-        vertices,
+        std::move(vertices),
         generateIndices(vertices.size()),
         TRIANGLES
     };

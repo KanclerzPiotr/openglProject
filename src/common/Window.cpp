@@ -105,3 +105,7 @@ void Window::setScrollCallback(std::function<void(GLFWwindow*, double, double)>&
 void Window::enable(GLenum cap) {
     glEnable(cap);
 }
+
+void Window::setInputMode(int mode, int value) {
+    glfwSetInputMode(window, mode, value);
+}

@@ -57,7 +57,7 @@ int main(void)
     Window window(800, 600, "OpenGL");
 
     Mesh mesh = {
-        vertices,
+        std::move(vertices),
         generateIndices(vertices.size()),
         TRIANGLES
     };

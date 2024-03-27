@@ -1,4 +1,5 @@
 # Laboratorium 2
+Pliki budują się do [build/src/labs/lab2](./../../../build/src/labs/lab2/)
 
 ## Zadanie 1
 ![Zadanie 1](./images/zad1.png)

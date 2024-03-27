@@ -40,12 +40,10 @@ int main(void)
     int n_edges = 10;
     auto verticies = generateVertices(n_edges);
     Mesh mesh = {
-        verticies,
+        std::move(verticies),
         generateIndicesCenter(2*n_edges),
         TRIANGLE_FAN
     };
-
-
 
     GLSLProgram program{"vertex_zad4.glsl", "fragment_zad4.glsl"};
     program.use();
