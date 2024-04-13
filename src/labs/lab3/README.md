@@ -1,4 +1,4 @@
-# Laboratorium 2
+# Laboratorium 3
 Pliki budują się do [build/src/labs/lab3](./../../../build/src/labs/lab3/)
 
 ## Zadanie 1

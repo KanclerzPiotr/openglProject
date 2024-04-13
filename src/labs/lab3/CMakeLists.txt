@@ -1,8 +1,3 @@
-get_directory_property (inc_dirs INCLUDE_DIRECTORIES)
-list(TRANSFORM inc_dirs PREPEND "-I ")
-list(JOIN inc_dirs " " INCLUDE_STRING)
-message(STATUS "INCLUDE_DIRECTORIES: ${INCLUDE_STRING}")
-
 set(RESOURCE_FILES 
     shaders/fragment/fragment_zad1_1.glsl 
     shaders/fragment/fragment_zad1_2.glsl 

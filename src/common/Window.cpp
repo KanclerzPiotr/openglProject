@@ -109,3 +109,11 @@ void Window::enable(GLenum cap) {
 void Window::setInputMode(int mode, int value) {
     glfwSetInputMode(window, mode, value);
 }
+
+void Window::blendFunc(GLenum sfactor, GLenum dfactor) {
+    glBlendFunc(sfactor, dfactor);
+}
+
+void Window::blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
+    glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
+}

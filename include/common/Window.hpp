@@ -23,6 +23,8 @@ public:
     void setScrollCallback(std::function<void(GLFWwindow*, double, double)>&& callback);
     void setInputMode(int mode, int value);
     void enable(GLenum cap);
+    void blendFunc(GLenum sfactor, GLenum dfactor);
+    void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
 
 private:
     GLFWwindow* window;

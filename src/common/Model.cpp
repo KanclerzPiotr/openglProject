@@ -3,13 +3,31 @@
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tinyobjloader/tiny_obj_loader.h>
+#include <common/TextureManager.hpp>
 
 
 
-Model::Model(std::string_view path) {
+Model::Model(std::string_view path, std::vector<std::string_view> textures) {
     this->path = path;
+    
+    loadModel();
+    loadTextures(textures);
+
+}
+
+void Model::loadTextures(std::vector<std::string_view> textures) {
+    if(textures.size() > 5) {
+        fmt::print("Model: Too many textures for model: {}\n", path);
+    }
+
+    for(auto& texture : textures) {
+        this->textures.emplace_back(TextureManager::getTexture(std::string{texture}));
+    }
+}   
+
+void Model::loadModel() {
     tinyobj::ObjReaderConfig reader_config;
-    reader_config.triangulate = true;
+    reader_config.triangulate = true; 
     reader_config.mtl_search_path = "./";
 
     tinyobj::ObjReader reader;
@@ -30,7 +48,6 @@ Model::Model(std::string_view path) {
     auto& materials = reader.GetMaterials();
 
     parseShapes(shapes, attrib);
-
 }
 
 void Model::parseShapes(const std::vector<tinyobj::shape_t>& shapes, const tinyobj::attrib_t& attrib) {
@@ -119,9 +136,20 @@ void Model::scaleUp(const glm::vec3& scale) {
     modelMatrix = glm::scale(modelMatrix, scale);
 }
 
+void Model::setTextureUniforms(GLSLProgram& program) {
+    for(int i = 0; i < textures.size(); i++) {
+        textures[i]->bind(i);
+        program.setUniform(fmt::format("texture{}", i), i);
+    }
+}
+
 void Model::draw() {
     for (auto& mesh : meshes) {
         mesh.draw();
+    }
+
+    for(int i = 0; i < textures.size(); i++) {
+        textures[i]->unbind();
     }
 }
 

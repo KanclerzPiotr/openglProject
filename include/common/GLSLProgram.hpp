@@ -50,9 +50,11 @@ public:
     void setUniform(std::string_view name, const glm::mat3 &m);
     void setUniform(std::string_view name, float val);
     void setUniform(std::string_view name, int val);
+    void setUniform(std::string_view name, unsigned int val);
     void setUniform(std::string_view name, bool val);
     void setUniform(std::string_view name, int count, float val);
     void setUniform(std::string_view name, int count, int val);
+
 };
 
 #endif // COMMON_GLSLPROGRAM_HPP

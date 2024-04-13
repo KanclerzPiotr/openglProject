@@ -4,6 +4,23 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
+std::string to_string(GLSLShader::GLSLShaderType type) {
+    switch (type) {
+    case GLSLShader::VERTEX:
+        return "VERTEX";
+    case GLSLShader::FRAGMENT:
+        return "FRAGMENT";
+    case GLSLShader::GEOMETRY:
+        return "GEOMETRY";
+    case GLSLShader::TESS_CONTROL:
+        return "TESS_CONTROL";
+    case GLSLShader::TESS_EVALUATION:
+        return "TESS_EVALUATION";
+    default:
+        return "UNKNOWN";
+    }
+}
+
 int GLSLProgram::getUniformLocation(std::string_view name) {
 
     if(uniformLocations.find(name.data()) == uniformLocations.end()) {
@@ -76,7 +93,7 @@ bool GLSLProgram::compileShaderFromString(std::string_view source, GLSLShader::G
         if (infolen > 0) {
             char *infoLog = new char[infolen];
             glGetShaderInfoLog(shader, infolen, &charsWritten, infoLog);
-            fmt::println("Blad kompilacji shadera: {}", infoLog);
+            fmt::println("{} Blad kompilacji shadera: {}", to_string(type), infoLog);
             delete[] infoLog;
         }
         return false;
@@ -140,6 +157,9 @@ void GLSLProgram::setUniform(std::string_view name, float val) {
 void GLSLProgram::setUniform(std::string_view name, int val) {
     glUniform1i(getUniformLocation(name), val);
 }
+void GLSLProgram::setUniform(std::string_view name, unsigned int val) {
+    glUniform1ui(getUniformLocation(name), val);
+}
 void GLSLProgram::setUniform(std::string_view name, bool val) {
     glUniform1i(getUniformLocation(name), val);
 }
@@ -149,3 +169,5 @@ void GLSLProgram::setUniform(std::string_view name, int count, float val){
 void GLSLProgram::setUniform(std::string_view name, int count, int val){
     glUniform1iv(getUniformLocation(name), count, &val);
 }
+
+
