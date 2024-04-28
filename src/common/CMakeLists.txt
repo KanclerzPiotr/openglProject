@@ -14,12 +14,15 @@ set(SRC
 set(HEADERS
     ${INCLUDE_PATH}/Camera.hpp
     ${INCLUDE_PATH}/GLSLProgram.hpp
+    ${INCLUDE_PATH}/Light.hpp
+    ${INCLUDE_PATH}/Material.hpp
     ${INCLUDE_PATH}/Mesh.hpp
     ${INCLUDE_PATH}/Model.hpp
     ${INCLUDE_PATH}/Random.hpp
-    ${INCLUDE_PATH}/Vertex.hpp
     ${INCLUDE_PATH}/Texture.hpp
     ${INCLUDE_PATH}/TextureManager.hpp
+    ${INCLUDE_PATH}/UniformBuffer.hpp
+    ${INCLUDE_PATH}/Vertex.hpp
     ${INCLUDE_PATH}/Window.hpp
 )
 

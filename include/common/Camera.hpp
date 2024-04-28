@@ -41,6 +41,7 @@ public:
     void processMouseScroll(float yoffset);
     glm::mat4 getViewMatrix() const;
     glm::mat4 getProjectionMatrix(float width, float height) const;
+    glm::vec3 getPosition() const;
 };
 
 #endif // COMMON_CAMERA_HPP

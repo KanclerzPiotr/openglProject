@@ -26,6 +26,7 @@ public:
     ~Model() = default;
 
     glm::mat4 getModelMatrix() const;
+    glm::mat3 getNormalMatrix() const;
 
     void setModelMatrix(const glm::mat4& modelMatrix);
 

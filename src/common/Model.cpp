@@ -100,6 +100,10 @@ glm::mat4 Model::getModelMatrix() const {
     return modelMatrix;
 }
 
+glm::mat3 Model::getNormalMatrix() const {
+    return glm::transpose(glm::inverse(modelMatrix));
+}
+
 void Model::setModelMatrix(const glm::mat4& modelMatrix) {
     this->modelMatrix = modelMatrix;
 }
