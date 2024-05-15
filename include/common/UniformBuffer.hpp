@@ -19,6 +19,7 @@ public:
     ~UniformBuffer();
 
     void bind(unsigned int bindingPoint) const;
+    void updateData(std::vector<T>&& data);
     int getSize() const;
 };
 
@@ -26,24 +27,22 @@ public:
 template <typename T>
 UniformBuffer<T>::UniformBuffer(std::vector<T>&& data)
 {
-    this->size = this->data.size();
-    if (size > 10)
+    if (this->data.size() > 10)
     {
         fmt::print("UniformBuffer size is bigger than 10: {}\n", size);
         return;
     }
     this->data = std::move(data);
-    
 
     glGenBuffers(1, &UBO);
     glBindBuffer(GL_UNIFORM_BUFFER, UBO);
-    glBufferData(GL_UNIFORM_BUFFER, size * sizeof(T), this->data.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBufferData(GL_UNIFORM_BUFFER, this->data.size() * sizeof(T), this->data.data(), GL_STATIC_DRAW);
 }
 
 template <typename T>
 UniformBuffer<T>::~UniformBuffer()
 {
+    fmt::print("Deleting UniformBuffer\n");
     glDeleteBuffers(1, &UBO);
 }
 
@@ -56,7 +55,20 @@ void UniformBuffer<T>::bind(unsigned int bindingPoint) const
 template <typename T>
 int UniformBuffer<T>::getSize() const
 {
-    return size;
+    return data.size();
+}
+
+template <typename T>
+void UniformBuffer<T>::updateData(std::vector<T>&& data)
+{
+    if (data.size() != this->data.size())
+    {
+        fmt::print("Data size is different from the current data size\n");
+        return;
+    }
+    this->data = std::move(data);
+    glBindBuffer(GL_UNIFORM_BUFFER, UBO);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, this->data.size() * sizeof(T), this->data.data());
 }
 
 

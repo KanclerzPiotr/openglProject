@@ -13,6 +13,7 @@ set(SRC
 
 set(HEADERS
     ${INCLUDE_PATH}/Camera.hpp
+    ${INCLUDE_PATH}/CommonSetups.hpp
     ${INCLUDE_PATH}/GLSLProgram.hpp
     ${INCLUDE_PATH}/Light.hpp
     ${INCLUDE_PATH}/Material.hpp

@@ -5,12 +5,12 @@
 
 constexpr unsigned int MATERIAL_BINDING_POINT = 2;
 // vec4 instead of vec3 to ensure alignment
-struct MaterialParam
+struct Material
 {
 	glm::vec4 ambient;
 	glm::vec4 diffuse;
 	glm::vec4 specular;
-	float Shininess;
+	float shininess;
 };
 
 #endif // COMMON_MATERIAL_HPP

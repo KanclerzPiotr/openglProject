@@ -29,6 +29,13 @@ int GLSLProgram::getUniformLocation(std::string_view name) {
     return uniformLocations[name.data()];
 }
 
+int GLSLProgram::getUniformBlockLocation(std::string_view name) {
+    if(uniformBlockLocations.find(name.data()) == uniformBlockLocations.end()) {
+        uniformBlockLocations[name.data()] = glGetUniformBlockIndex(handle, name.data());
+    }
+    return uniformBlockLocations[name.data()];
+}
+
 bool GLSLProgram::fileExists(std::string_view &fileName) {
     std::ifstream f(fileName.data());
     return f.good();
@@ -72,7 +79,6 @@ bool GLSLProgram::compileShaderFromFile(std::string_view fileName, GLSLShader::G
     std::ifstream f(fileName.data());
     std::string str((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
     return compileShaderFromString(str, type);
-
 }
 
 bool GLSLProgram::compileShaderFromString(std::string_view source, GLSLShader::GLSLShaderType type) {
@@ -168,6 +174,10 @@ void GLSLProgram::setUniform(std::string_view name, int count, float val){
 }
 void GLSLProgram::setUniform(std::string_view name, int count, int val){
     glUniform1iv(getUniformLocation(name), count, &val);
+}
+
+void GLSLProgram::bindUniformBlockToBindingPoint(std::string_view blockName, unsigned int bindingPoint) {
+    glUniformBlockBinding(handle, getUniformBlockLocation(blockName), bindingPoint);
 }
 
 

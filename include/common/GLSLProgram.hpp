@@ -26,7 +26,9 @@ private:
     int handle;
     bool linked;
     std::map<std::string, int> uniformLocations;
+    std::map<std::string, int> uniformBlockLocations;
     int getUniformLocation(std::string_view name);
+    int getUniformBlockLocation(std::string_view name);
     bool fileExists(std::string_view &fileName);
     int createShader(GLSLShader::GLSLShaderType type);
 
@@ -54,6 +56,8 @@ public:
     void setUniform(std::string_view name, bool val);
     void setUniform(std::string_view name, int count, float val);
     void setUniform(std::string_view name, int count, int val);
+
+    void bindUniformBlockToBindingPoint(std::string_view blockName, unsigned int bindingPoint);
 
 };
 
