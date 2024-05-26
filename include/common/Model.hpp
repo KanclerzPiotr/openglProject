@@ -23,12 +23,17 @@ private:
     void loadTextures(std::vector<std::string_view> textures);
 public:
     Model(std::string_view path, std::vector<std::string_view> textures = {});
-    ~Model() = default;
+    Model(const Model&) = delete;
+    Model& operator=(const Model&) = delete;
+    Model(Model&&) = default;
+    ~Model();
+    // ~Model() = default;
 
     glm::mat4 getModelMatrix() const;
     glm::mat3 getNormalMatrix() const;
 
     void setModelMatrix(const glm::mat4& modelMatrix);
+    void bindInstancedArray();
 
     void translate(const glm::vec3& translation);
     void rotate(const glm::vec3& rotation);
@@ -40,6 +45,10 @@ public:
     void setTextureUniforms(GLSLProgram& program);
 
     void draw();
+    void drawInstanced(int count);
+
+    void bind();
+
 };
 
 #endif // COMMON_MODEL_HPP

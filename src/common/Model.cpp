@@ -15,6 +15,11 @@ Model::Model(std::string_view path, std::vector<std::string_view> textures) {
 
 }
 
+Model::~Model() {
+    fmt::println("Model: Destroying model: {}", path);
+}
+
+
 void Model::loadTextures(std::vector<std::string_view> textures) {
     if(textures.size() > 5) {
         fmt::print("Model: Too many textures for model: {}\n", path);
@@ -49,6 +54,7 @@ void Model::loadModel() {
 
     parseShapes(shapes, attrib);
 }
+
 
 void Model::parseShapes(const std::vector<tinyobj::shape_t>& shapes, const tinyobj::attrib_t& attrib) {
     
@@ -95,6 +101,8 @@ void Model::parseShapes(const std::vector<tinyobj::shape_t>& shapes, const tinyo
         meshes.emplace_back(Mesh<Vertex>{std::move(vertices), std::move(indices), TRIANGLES});
     }
 }
+
+
 
 glm::mat4 Model::getModelMatrix() const {
     return modelMatrix;
@@ -157,3 +165,24 @@ void Model::draw() {
     }
 }
 
+void Model::bindInstancedArray() {
+    for (auto& mesh : meshes) {
+        mesh.bindInstancedArray();
+    }
+}
+
+void Model::drawInstanced(int count) {
+    for (auto& mesh : meshes) {
+        mesh.drawInstanced(count);
+    }
+
+    for(int i = 0; i < textures.size(); i++) {
+        textures[i]->unbind();
+    }
+}
+
+void Model::bind() {
+    for (auto& mesh : meshes) {
+        mesh.bindVAO();
+    }
+}

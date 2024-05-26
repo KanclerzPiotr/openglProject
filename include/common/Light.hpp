@@ -3,7 +3,10 @@
 
 #include <glm/glm.hpp>
 
-constexpr unsigned int LIGHTS_BINDING_POINT = 1;
+
+
+constexpr unsigned int DIRECTIONAL_LIGHTS_BINDING_POINT = 0;
+constexpr unsigned int POINT_LIGHTS_BINDING_POINT = 1;
 //vec4 instead of vec3 to ensure alignment
 struct Light
 {

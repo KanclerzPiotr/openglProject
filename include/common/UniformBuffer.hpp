@@ -20,7 +20,10 @@ public:
 
     void bind(unsigned int bindingPoint) const;
     void updateData(std::vector<T>&& data);
+    void updateData(int index, T&& data);
+    void updateData(int index, const T& data);
     int getSize() const;
+    const std::vector<T>& getData() const { return data; }
 };
 
 
@@ -71,6 +74,31 @@ void UniformBuffer<T>::updateData(std::vector<T>&& data)
     glBufferSubData(GL_UNIFORM_BUFFER, 0, this->data.size() * sizeof(T), this->data.data());
 }
 
+template <typename T>
+void UniformBuffer<T>::updateData(int index, T&& data)
+{
+    if (index >= this->data.size())
+    {
+        fmt::print("Index is out of range\n");
+        return;
+    }
+    this->data[index] = std::move(data);
+    glBindBuffer(GL_UNIFORM_BUFFER, UBO);
+    glBufferSubData(GL_UNIFORM_BUFFER, index * sizeof(T), sizeof(T), &this->data[index]);
+}
+
+template <typename T>
+void UniformBuffer<T>::updateData(int index, const T& data)
+{
+    if (index >= this->data.size())
+    {
+        fmt::print("Index is out of range\n");
+        return;
+    }
+    this->data[index] = data;
+    glBindBuffer(GL_UNIFORM_BUFFER, UBO);
+    glBufferSubData(GL_UNIFORM_BUFFER, index * sizeof(T), sizeof(T), &this->data[index]);
+}
 
 
 

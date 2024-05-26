@@ -117,3 +117,11 @@ void Window::blendFunc(GLenum sfactor, GLenum dfactor) {
 void Window::blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) {
     glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
 }
+
+void Window::clearColor(float red, float green, float blue, float alpha) {
+    glClearColor(red, green, blue, alpha);
+}
+
+void Window::clear(GLbitfield mask) {
+    glClear(mask);
+}

@@ -44,6 +44,10 @@ public:
     void drawArrays();
     void drawArrays(int first, int count);
     void drawArrays(int first, int count, PrimitiveType primitive);
+    void drawInstanced(int count);
+    void bindInstancedArray();
+    void bindVAO();
+
 };
 
 template<typename T>
@@ -153,6 +157,7 @@ Mesh<T>& Mesh<T>::operator=(Mesh&& other)
 template<typename T>
 Mesh<T>::~Mesh()
 {
+    fmt::println("Deleting mesh");
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
@@ -188,6 +193,20 @@ void Mesh<T>::drawArrays(int first, int count, PrimitiveType primitive)
     glBindVertexArray(VAO);
     glDrawArrays(primitive, first, count);
     glBindVertexArray(0);
+}
+
+template<typename T>
+void Mesh<T>::drawInstanced(int count)
+{
+    glBindVertexArray(VAO);
+    glDrawArraysInstanced(primitiveType, 0, vertices.size(), count);
+    glBindVertexArray(0);
+}
+
+template<typename T>
+void Mesh<T>::bindVAO()
+{
+    glBindVertexArray(VAO);
 }
 
 

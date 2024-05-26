@@ -14,6 +14,7 @@
 #include <random>
 #include <iostream>
 #include <numeric>
+#include <fmt/core.h>
 
 
 constexpr int screenWidth = 800;
@@ -54,17 +55,83 @@ void setupModels(Model& cube, Model& cone, Model& monkey, Model& terrain){
     terrain.translate({0.0f, -1.0f, 0.0f});
 }
 
+glm::vec4 animateLight(float time) {
+    float x = 15.0f * glm::sin(time);
+    float z = 15.0f * glm::cos(time);
+    return {x, 3.0f, z, 1.0f};
+}
+
+auto makeKeyCallback(Camera& camera, GLSLProgram& program)
+{
+    
+    return [&camera, &program](GLFWwindow* window, int key, int scancode, int action, int mods) {
+
+        float deltaTime = 0.1f;
+        static bool blin = false;
+        static bool lightning = true;
+        if (action == GLFW_PRESS || action == GLFW_REPEAT) {
+            switch (key) {
+                case GLFW_KEY_ESCAPE:
+                    glfwSetWindowShouldClose(window, true);
+                    break;
+                case GLFW_KEY_LEFT_SHIFT:
+                    camera.processKeyboard(CameraMovement::UP, deltaTime);
+                    break;
+                case GLFW_KEY_SPACE:
+                    camera.processKeyboard(CameraMovement::DOWN, deltaTime);
+                    break;
+                case GLFW_KEY_W:
+                    camera.processKeyboard(CameraMovement::FORWARD, deltaTime);
+                    break;
+                case GLFW_KEY_S:
+                    camera.processKeyboard(CameraMovement::BACKWARD, deltaTime);
+                    break;
+                case GLFW_KEY_A:
+                    camera.processKeyboard(CameraMovement::LEFT, deltaTime);
+                    break;
+                case GLFW_KEY_D:
+                    fmt::println("click D");
+                    camera.processKeyboard(CameraMovement::RIGHT, deltaTime);
+                    break;
+                case GLFW_KEY_B:
+                    fmt::println("setting blinn to: {}", blin);
+                    program.use();
+                    program.setUniform("blinn", blin);
+                    blin = !blin;
+                    break;
+                case GLFW_KEY_L:
+                    fmt::println("setting lightning to: {}", lightning);
+                    program.use();
+                    program.setUniform("lightning", lightning);
+                    lightning = !lightning;
+                    break;
+                
+            }   
+        }
+    };
+}
+
 int main(void)
 {
     Camera camera{{0.0f, 8.0f, 20.0f}, {0.0f, 1.0f, 0.0f}, -90.0f, -20.0f};
 
     Window window(screenWidth, screenHeight, "OpenGL");
+    GLSLProgram program{"vertex_zad1.glsl", "fragment_zad1.glsl"};
+    GLSLProgram lightningsProgram{"vertex_zad1_2.glsl", "fragment_zad1_2.glsl"};
+
     window.enable(GL_DEPTH_TEST);
+    window.setInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     window.setScrollCallback(makeScrollCallback(camera));
-    window.setKeyCallback(makeKeyCallback(camera));
+    window.setKeyCallback(makeKeyCallback(camera, program));
     window.setCursorPosCallback(makeCursorPosCallback(camera));
 
-    GLSLProgram program{"vertex_zad1.glsl", "fragment_zad1.glsl"};
+    Light movingLight{
+            {0.2f, 0.2f, 0.2f, 1.0f},
+            {1.0f, 1.0f, 1.0f, 1.0f},
+            {0.0f, 1.0f, 0.0f, 1.0f},
+            {1.0f, 0.0f, 0.01f, 1.0f},
+            {0.0f, 5.0f, 0.0f, 1.0f},
+    };
 
     UniformBuffer<Light> lightBuffer{{
         {
@@ -80,15 +147,46 @@ int main(void)
             {0.0f, 1.0f, 0.0f, 1.0f},
             {1.0f, 0.0f, 0.01f, 1.0f},
             {-5.0f, 5.0f, 5.0f, 1.0f},
+        },
+        movingLight
+    }};
+    lightBuffer.bind(POINT_LIGHTS_BINDING_POINT);
+
+    UniformBuffer<Light> directionalLightBuffer{{
+        {
+            {0.2f, 0.2f, 0.2f, 1.0f},
+            {0.5f, 0.5f, 0.5f, 1.0f},
+            {0.0f, 0.0f, 1.0f, 1.0f},
+            {1.0f, 0.0f, 0.01f, 1.0f},
+            {-0.2f, -1.0f, -0.3f, 1.0f},
         }
     }};
+    directionalLightBuffer.bind(DIRECTIONAL_LIGHTS_BINDING_POINT);
 
-    lightBuffer.bind(LIGHTS_BINDING_POINT);
+    UniformBuffer<Material> materialBuffer{{
+        // black rubber
+        {
+            { 0.02f, 0.02f, 0.02f, 1.0f },
+            { 0.01f, 0.01f, 0.01f, 1.0f},
+            {0.4f, 0.4f, 0.4f, 1.0f },
+            10.0f
+        },
+        // brass 
+        {
+            { 0.329412f, 0.223529f, 0.027451f, 1.0f },
+            { 0.780392f, 0.568627f, 0.113725f, 1.0f },
+            { 0.992157f, 0.941176f, 0.807843f, 1.0f },
+            27.8974f
+        }
+    }};
+    materialBuffer.bind(MATERIAL_BINDING_POINT);
 
     Model cubeModel{"cube.obj", {"troll.png"}};
     Model coneModel{"cone.obj", {"fire.jpg"}};
     Model monkeyModel{"monkey.obj", {"metal.jpg"}};
     Model terrainModel{"terrain.obj", {"grass.jpg"}};
+
+    Model lightCube{"cube.obj"};
     
     setupModels(cubeModel, coneModel, monkeyModel, terrainModel);
     constexpr float radius = 5.0f;
@@ -96,11 +194,13 @@ int main(void)
 
     program.use(); 
 
-    program.setUniform("lightsNumber", lightBuffer.size());
+    program.setUniform("pointLightNumber", lightBuffer.getSize());
+    program.setUniform("blinn", false);
+    program.setUniform("lightning", true);
 
     while(!window.shouldClose())
     {
-
+        program.use();
         float time = glfwGetTime();
         float deltaTime = getDeltaTime();
 
@@ -110,19 +210,32 @@ int main(void)
         animateCube(cubeModel, time);
         animateCone(coneModel, deltaTime, circle);
         animateMonkey(monkeyModel, time);
-    
+
+        auto lightPosition = animateLight(time);
+        movingLight.position = lightPosition;
+        lightBuffer.updateData(2, movingLight);
+
         setupCameraUniforms(program, camera, screenWidth, screenHeight);
 
+        program.setUniform("materialId", 0);
         drawModel(program, cubeModel);
         drawModel(program, coneModel);
         drawModel(program, monkeyModel);
+        program.setUniform("materialId", 1);
         drawModel(program, terrainModel);
+
+        lightningsProgram.use();
+        setupCameraUniforms(lightningsProgram, camera, screenWidth, screenHeight);
+        for( const auto& light : lightBuffer.getData())
+        {
+            lightningsProgram.setUniform("model", glm::translate(glm::mat4(1.0f), glm::vec3(light.position)));
+            lightningsProgram.setUniform("color", light.diffuse);
+            lightCube.draw();
+        }
 
         window.pollEvents();
         window.swapBuffers();
     }
-
-
 
 
     return 0;

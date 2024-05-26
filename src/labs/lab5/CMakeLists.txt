@@ -1,6 +1,8 @@
 set(RESOURCE_FILES 
     shaders/fragment/fragment_zad1.glsl 
+    shaders/fragment/fragment_zad1_2.glsl 
     shaders/vertex/vertex_zad1.glsl
+    shaders/vertex/vertex_zad1_2.glsl
     textures/fire.jpg
     textures/grass.jpg
     textures/metal.jpg

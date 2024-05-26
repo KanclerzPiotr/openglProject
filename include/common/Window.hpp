@@ -25,6 +25,8 @@ public:
     void enable(GLenum cap);
     void blendFunc(GLenum sfactor, GLenum dfactor);
     void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+    void clearColor(float red, float green, float blue, float alpha);
+    void clear(GLbitfield mask);
 
 private:
     GLFWwindow* window;
