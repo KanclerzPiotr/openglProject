@@ -54,3 +54,9 @@ void Texture::unbind() const
 {
     glBindTexture(GL_TEXTURE_2D, 0);
 }  
+
+Texture::~Texture()
+{
+    fmt::print("Texture: Destroying texture: {}\n", m_id);
+    glDeleteTextures(1, &m_id);
+}

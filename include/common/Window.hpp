@@ -21,6 +21,7 @@ public:
     void setMouseButtonCallback(std::function<void(GLFWwindow*, int, int, int)>&& callback);
     void setCursorPosCallback(std::function<void(GLFWwindow*, double, double)>&& callback);
     void setScrollCallback(std::function<void(GLFWwindow*, double, double)>&& callback);
+    void setPrimitiveRestartIndex(unsigned int index);
     void setInputMode(int mode, int value);
     void enable(GLenum cap);
     void blendFunc(GLenum sfactor, GLenum dfactor);

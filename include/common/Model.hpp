@@ -23,6 +23,7 @@ private:
     void loadTextures(std::vector<std::string_view> textures);
 public:
     Model(std::string_view path, std::vector<std::string_view> textures = {});
+    Model(Mesh<Vertex>&& mesh, std::vector<std::string_view> textures = {});
     Model(const Model&) = delete;
     Model& operator=(const Model&) = delete;
     Model(Model&&) = default;

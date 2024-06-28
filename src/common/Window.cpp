@@ -125,3 +125,7 @@ void Window::clearColor(float red, float green, float blue, float alpha) {
 void Window::clear(GLbitfield mask) {
     glClear(mask);
 }
+
+void Window::setPrimitiveRestartIndex(unsigned int index) {
+    glPrimitiveRestartIndex(index);
+}

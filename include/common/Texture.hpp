@@ -11,7 +11,7 @@ public:
     Texture& operator=(const Texture&) = delete;
     Texture(Texture&&) = default;
     Texture& operator=(Texture&&) = default;
-    ~Texture() = default;
+    ~Texture();
 
     void bind(int index = 0) const;
     void unbind() const;

@@ -1,7 +1,7 @@
 #ifndef COMMON_TEXTUREMANAGER_HPP
 #define COMMON_TEXTUREMANAGER_HPP
 
-#include <unordered_map>
+#include <map>
 #include <string>
 #include <memory>
 
@@ -13,7 +13,7 @@ public:
     static std::shared_ptr<Texture> getTexture(const std::string& path);
 
 private:
-    static std::unordered_map<std::string, std::shared_ptr<Texture>> m_textures;
+    static std::map<std::string, std::shared_ptr<Texture>> m_textures;
     static void loadTexture(const std::string& path);
 };
 

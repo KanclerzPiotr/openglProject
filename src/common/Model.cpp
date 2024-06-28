@@ -15,6 +15,11 @@ Model::Model(std::string_view path, std::vector<std::string_view> textures) {
 
 }
 
+Model::Model(Mesh<Vertex>&& mesh, std::vector<std::string_view> textures) {
+    meshes.emplace_back(std::move(mesh));
+    loadTextures(textures);
+}
+
 Model::~Model() {
     fmt::println("Model: Destroying model: {}", path);
 }
