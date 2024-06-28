@@ -3,8 +3,7 @@
 
 #include <glm/glm.hpp>
 
-namespace random {
-
+namespace my_random {
 
 void seed();
 float get(float min, float max);

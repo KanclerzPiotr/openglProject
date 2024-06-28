@@ -44,11 +44,11 @@ int main(void)
         TRIANGLES
     };
 
-    random::seed();
+    my_random::seed();
     std::vector<float> scales(10);
     std::vector<glm::vec3> positions(10);
-    std::generate(scales.begin(), scales.end(), []() { return random::get(0.2f, 1.0f); });
-    std::generate(positions.begin(), positions.end(), []() { return random::getVec3(-1.0f, 1.0f); });
+    std::generate(scales.begin(), scales.end(), []() { return my_random::get(0.2f, 1.0f); });
+    std::generate(positions.begin(), positions.end(), []() { return my_random::getVec3(-1.0f, 1.0f); });
 
     program.use();
     program.setUniform("view", camera.getViewMatrix());

@@ -3,7 +3,7 @@
 #include <random>
 #include <chrono>
 
-namespace random {
+namespace my_random {
 
 static std::mt19937 gen;
 
