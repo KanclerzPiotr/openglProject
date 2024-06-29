@@ -81,11 +81,11 @@ vec3 calculateDirectionalLight(vec3 normal, LightParam light, MaterialParam mate
 	vec3 viewDir = normalize(cameraPos);
 	vec3 reflectDir = reflect(-lightDir, normal);
 
-	vec3 ambient = light.ambient * material.ambient;
+	// vec3 ambient = light.ambient * material.ambient;
 	vec3 diffuse = light.diffuse * material.diffuse * max(dot(normal, lightDir), 0.0);
 	vec3 specular = light.specular * material.specular * pow(max(dot(normal, normalize(lightDir + viewDir)), 0.0), material.shininess);
 
-	return ambient + diffuse + specular;
+	return material.ambient;
 }
 
 void main() {
@@ -105,5 +105,5 @@ void main() {
 		FragColor = color * vec4(result, 1.0);
 	}
 	else
-		FragColor = color * vec4(calculateDirectionalLight(normal, directLight, material[materialId]), 1.0);
+		FragColor = vec4(calculateDirectionalLight(normal, directLight, material[materialId]), 1.0);
 }

@@ -20,10 +20,6 @@ Model::Model(Mesh<Vertex>&& mesh, std::vector<std::string_view> textures) {
     loadTextures(textures);
 }
 
-Model::~Model() {
-    fmt::println("Model: Destroying model: {}", path);
-}
-
 
 void Model::loadTextures(std::vector<std::string_view> textures) {
     if(textures.size() > 5) {

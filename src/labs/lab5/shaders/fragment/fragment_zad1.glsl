@@ -78,7 +78,7 @@ vec3 calculatePointLight(vec3 fragPos, vec3 normal, LightParam light, MaterialPa
 vec3 calculateDirectionalLight(vec3 normal, LightParam light, MaterialParam material)
 {
 	vec3 lightDir = normalize(-light.position);
-	vec3 viewDir = normalize(cameraPos);
+	vec3 viewDir = normalize(cameraPos - fragPos);
 	vec3 reflectDir = reflect(-lightDir, normal);
 
 	vec3 ambient = light.ambient * material.ambient;
@@ -93,9 +93,10 @@ void main() {
     vec4 color = texture(texture1, fragTexCoords);
 
 	vec3 normal = normalize(fragNormal);
+
+	color = color * vec4(calculateDirectionalLight(normal, directLight, material[materialId]), 1.0);
     
 	if (lightning) {
-		
 
 		vec3 result = vec3(0.0);
 
@@ -104,6 +105,8 @@ void main() {
 	
 		FragColor = color * vec4(result, 1.0);
 	}
-	else
-		FragColor = color * vec4(calculateDirectionalLight(normal, directLight, material[materialId]), 1.0);
+	// else
+	// {
+	// 	FragColor = color * vec4(calculateDirectionalLight(normal, directLight, material[materialId]), 1.0);
+	// }
 }

@@ -11,13 +11,11 @@ uniform mat4 projection;
 out vec3 fragPos;
 out vec2 fragTexCoords;
 out vec3 fragNormal;
-out float height;
 
 void main()
 {
     fragPos = vec3(model * vec4(inputPos, 1.0));
     fragTexCoords = inputTexCoords;
     fragNormal = normalMatrix * inputNormal;
-    height = inputPos.y;
     gl_Position = projection * view * model * vec4(inputPos, 1.0);
 }

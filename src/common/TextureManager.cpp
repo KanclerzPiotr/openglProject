@@ -12,7 +12,7 @@ std::shared_ptr<Texture> TextureManager::getTexture(const std::string& path)
         loadTexture(path);
         it = m_textures.find(path);
     }
-    fmt::print("TextureManager: Number of textures: {}\n", m_textures.size());
+
     return it->second;
 }
 

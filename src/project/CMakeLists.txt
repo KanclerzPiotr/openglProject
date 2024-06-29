@@ -1,26 +1,35 @@
 set(RESOURCE_FILES 
     shaders/fragment/terrain_fragment.glsl 
+    shaders/fragment/normal_fragment.glsl 
 #     shaders/fragment/fragment_zad2_refraction.glsl 
-#     shaders/fragment/fragment_skybox.glsl 
+    shaders/fragment/fragment_skybox.glsl 
+    shaders/fragment/fragment_lights.glsl 
+    shaders/fragment/fragment_instanced.glsl 
     shaders/vertex/terrain_vertex.glsl
-#     shaders/vertex/vertex_skybox.glsl
-#     textures/koliber.jpg
+    shaders/vertex/normal_vertex.glsl
+    shaders/vertex/vertex_skybox.glsl
+    shaders/vertex/vertex_lights.glsl
+    shaders/vertex/vertex_instanced.glsl
+    tex/koliber.jpg
     tex/grass.jpg
     tex/sand.jpg
     tex/water.jpg
-#     models/koliber.obj
-#     skybox/back.jpg
-#     skybox/front.jpg
-#     skybox/left.jpg
-#     skybox/right.jpg
-#     skybox/top.jpg
-#     skybox/bottom.jpg
+    models/koliber.obj
+    models/cube.obj
+    models/cone.obj
+    skybox/back.jpg
+    skybox/front.jpg
+    skybox/left.jpg
+    skybox/right.jpg
+    skybox/top.jpg
+    skybox/bottom.jpg
 )
 
 set(SOURCE_FILES 
     src/main.cpp
     src/HeightMap.hpp
     src/PerlinNoise.hpp
+    src/TileManager.hpp
 )
 
 set(EXECUTABLE_NAME projekt)

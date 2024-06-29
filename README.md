@@ -37,3 +37,7 @@ Aplikacje budowane są np do build/src/labs/lab1
 
 [Laboratorium 4](./src/labs/lab4)
 
+## Projekt
+
+[Projekt](./src/project/)
+

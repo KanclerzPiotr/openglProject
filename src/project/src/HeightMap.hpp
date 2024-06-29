@@ -1,3 +1,6 @@
+#ifndef HEIGHTMAP_HPP
+#define HEIGHTMAP_HPP
+
 #include "PerlinNoise.hpp"
 
 #include <common/Mesh.hpp>
@@ -7,6 +10,7 @@
 
 auto generateHeightMap(int width, int height, float xOffset, float zOffset)
 {
+    fmt::print("Generating height map\n");
     const siv::PerlinNoise::seed_type seed = 123456u;
     const siv::PerlinNoise perlin{ seed };
     const int octaves = 8;
@@ -20,8 +24,8 @@ auto generateHeightMap(int width, int height, float xOffset, float zOffset)
     {
         for(int j = 0; j < width; j++)
         {
-            float x = j / (float)width;
-            float z = i / (float)height;
+            float x = j / (float)(width - 1);
+            float z = i / (float)(height - 1);
             float y = perlin.octave2D_01( (x + xOffset) * frequency, (z + zOffset) * frequency, octaves);
             y = (y < 0.2f) ? 0.0f : y;
             verticies[i * width + j].position = glm::vec3(x, y, z);
@@ -29,7 +33,7 @@ auto generateHeightMap(int width, int height, float xOffset, float zOffset)
             verticies[i * width + j].texCoords = glm::vec2(x, z);
             heightMap[i * width + j] = y;
         }
-
+        
     }
 
     for(int j = 0; j < height - 1; j++)
@@ -67,3 +71,5 @@ auto generateHeightMap(int width, int height, float xOffset, float zOffset)
 
     return Mesh<Vertex>{std::move(verticies), std::move(indices), PrimitiveType::TRIANGLE_STRIP};
 }
+
+#endif

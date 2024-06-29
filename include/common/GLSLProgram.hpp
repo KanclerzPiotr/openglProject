@@ -38,7 +38,8 @@ public:
     GLSLProgram(std::string_view vertexShader, std::string_view fragmentShader);
     bool compileShaderFromFile(std::string_view fileName,
                                GLSLShader::GLSLShaderType type);
-    bool compileShaderFromString(std::string_view source,
+    bool compileShaderFromString(std::string_view fileName,
+                                 std::string_view source,
                                  GLSLShader::GLSLShaderType type);
     bool link();
     void use();

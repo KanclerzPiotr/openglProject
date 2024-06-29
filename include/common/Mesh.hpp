@@ -157,7 +157,6 @@ Mesh<T>& Mesh<T>::operator=(Mesh&& other)
 template<typename T>
 Mesh<T>::~Mesh()
 {
-    fmt::println("Deleting mesh");
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);

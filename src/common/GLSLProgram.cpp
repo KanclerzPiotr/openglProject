@@ -78,10 +78,10 @@ bool GLSLProgram::compileShaderFromFile(std::string_view fileName, GLSLShader::G
     }
     std::ifstream f(fileName.data());
     std::string str((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
-    return compileShaderFromString(str, type);
+    return compileShaderFromString(fileName, str, type);
 }
 
-bool GLSLProgram::compileShaderFromString(std::string_view source, GLSLShader::GLSLShaderType type) {
+bool GLSLProgram::compileShaderFromString(std::string_view fileName, std::string_view source, GLSLShader::GLSLShaderType type) {
     
     GLuint shader = createShader(type);
 
@@ -99,7 +99,7 @@ bool GLSLProgram::compileShaderFromString(std::string_view source, GLSLShader::G
         if (infolen > 0) {
             char *infoLog = new char[infolen];
             glGetShaderInfoLog(shader, infolen, &charsWritten, infoLog);
-            fmt::println("{} Blad kompilacji shadera: {}", to_string(type), infoLog);
+            fmt::println("{} Blad kompilacji shadera: {}", fileName, infoLog);
             delete[] infoLog;
         }
         return false;

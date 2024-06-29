@@ -68,11 +68,6 @@ std::vector<glm::mat4> generateModelMatrices(int size)
     {
         modelMatrix = glm::mat4(1.0f); 
         modelMatrix = glm::translate(glm::mat4(1.0f), {translationDistribution(generator), translationDistribution(generator), translationDistribution(generator)});
-        // modelMatrix = glm::rotate(modelMatrix, glm::radians(rotationDistribution(generator)), {1.0f, 0.0f, 0.0f});
-        // modelMatrix = glm::rotate(modelMatrix, glm::radians(rotationDistribution(generator)), {0.0f, 1.0f, 0.0f});
-        // modelMatrix = glm::rotate(modelMatrix, glm::radians(rotationDistribution(generator)), {0.0f, 0.0f, 1.0f});
-        // float scale = scaleDistribution(generator);
-        // modelMatrix = glm::scale(modelMatrix, {scale, scale, scale});
     }
     return modelMatrices;
 }

@@ -193,10 +193,11 @@ int main(void)
     constexpr float circle = 2.0f * radius * glm::pi<float>();
 
     program.use(); 
-
     program.setUniform("pointLightNumber", lightBuffer.getSize());
     program.setUniform("blinn", false);
     program.setUniform("lightning", true);
+
+
 
     while(!window.shouldClose())
     {
@@ -215,6 +216,7 @@ int main(void)
         movingLight.position = lightPosition;
         lightBuffer.updateData(2, movingLight);
 
+
         setupCameraUniforms(program, camera, screenWidth, screenHeight);
 
         program.setUniform("materialId", 0);
@@ -232,6 +234,8 @@ int main(void)
             lightningsProgram.setUniform("color", light.diffuse);
             lightCube.draw();
         }
+
+
 
         window.pollEvents();
         window.swapBuffers();

@@ -5,7 +5,6 @@ out vec4 FragColor;
 in vec3 fragPos;
 in vec2 fragTexCoords;
 in vec3 fragNormal;
-in float height;
 
 uniform vec3 cameraPos;
 uniform int materialId;
@@ -84,31 +83,16 @@ vec3 calculateDirectionalLight(vec3 normal, LightParam light, MaterialParam mate
 
 void main() {
     vec3 normal = normalize(fragNormal);
+ 
+    vec4 color = texture(texture0, fragTexCoords);
 
-    vec4 c1 = texture(texture0, fragTexCoords);
-    vec4 c2 = texture(texture1, fragTexCoords);
-    vec4 c3 = texture(texture2, fragTexCoords);
-    vec4 color = vec4(0.0);
-
-    if (height < 0.17) {
-        color = c3;
-    } else if (height < 0.23) {
-        color = mix(c3, c2, (height - 0.17) / 0.06);
-    } else if (height < 0.35) {
-        color = c2;
-    } else if (height < 0.41) {
-        color = mix(c2, c1, (height - 0.35) / 0.06);
-    } else {
-        color = c1;
-    }
-
-	color = color * vec4(calculateDirectionalLight(normal, directLight, material[materialId]), 1.0);
-    
+	color = color * vec4(calculateDirectionalLight(normal, directLight, material[materialId]), 1.0); 
     vec3 result = vec3(0.0);
 
     for(int i = 0; i < pointLightNumber; i++)
         result += calculatePointLight(fragPos, normal, pointLight[i], material[materialId]);
     color = color * vec4(result, 1.0);
-
+ 
     FragColor = color;
+
 }

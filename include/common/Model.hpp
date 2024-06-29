@@ -27,8 +27,8 @@ public:
     Model(const Model&) = delete;
     Model& operator=(const Model&) = delete;
     Model(Model&&) = default;
-    ~Model();
-    // ~Model() = default;
+    ~Model() = default;
+    Model() = default;
 
     glm::mat4 getModelMatrix() const;
     glm::mat3 getNormalMatrix() const;

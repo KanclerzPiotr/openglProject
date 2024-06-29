@@ -33,7 +33,7 @@ auto makeCursorPosCallback(Camera& camera)
 void setupCameraUniforms(GLSLProgram& program, const Camera& camera, int screenWidth, int screenHeight) {
     program.setUniform("view", camera.getViewMatrix());
     program.setUniform("projection", camera.getProjectionMatrix(screenWidth, screenHeight));
-    program.setUniform("viewPos", camera.getPosition());
+    program.setUniform("cameraPos", camera.getPosition());
 }
 
 void drawModel(GLSLProgram& program, Model& model) {
