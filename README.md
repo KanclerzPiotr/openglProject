@@ -4,7 +4,7 @@
 
 Na ubuntu
 ```sh
-git clone https://gitlab.com/mdziemia/gl23_kanclerz_piotr.git --recurse-submodules
+git clone git@github.com:KanclerzPiotr/openglProject.git --recurse-submodules
 cd gl23_kanclerz_piotr
 rm PreLoad.cmake
 sudo apt-get install libwayland-dev pkg-config libxrandr-dev libxinerama-dev libxkbcommon-dev libxcursor-dev libxi-dev
@@ -16,7 +16,7 @@ make
 
 Na Windowsie
 ```
-git clone https://gitlab.com/mdziemia/gl23_kanclerz_piotr.git --recurse-submodules
+git clone git@github.com:KanclerzPiotr/openglProject.git --recurse-submodules
 cd gl23_kanclerz_piotr
 mkdir build
 cd build
